@@ -7,25 +7,31 @@ from main import parser
 
 class ParserUnitTest(unittest.TestCase):
     def setUp(self):
-        self.expression = expression
+        self.expression = parser.EXPRESSION
 
     def test_get_last_given_char_index(self):
-        char = "("
+        char = '('
         last_char_index = parser.get_last_given_char_index(self.expression, char)
         self.assertEquals(
-            last_char_index, self.expression.rfind(char)
+            self.expression.rfind(char), last_char_index
         )
 
     def test_get_first_given_char_index(self):
-        char = ")"
+        char = ')'
         first_char_index = parser.get_first_given_char_index(self.expression, char)
         self.assertEquals(
-            first_char_index, self.expression.find(char)
+            self.expression.find(char), first_char_index
+        )
+
+    def test_get_inner_rightmost_group(self):
+        self.assertEquals(
+            '3-1',
+            parser.get_innermost_rightmost_group(self.expression, '(', ')'),
         )
 
 
 def main():
     unittest.main()
 
-if __name__ == "main":
+if __name__ == 'main':
     main()
