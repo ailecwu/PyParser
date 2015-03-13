@@ -53,6 +53,5 @@ def split_into_numbers_and_operations(expression):
             field = [char]                          # reset the field to only contain the current char
         previous_is_digit = next_is_digit
         i += 1
-    if i == len(expression):
-        fields.append(''.join(field))
+    fields.append(''.join(field))                   # add the final remaining field
     return fields
