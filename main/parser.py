@@ -1,5 +1,7 @@
 __author__ = 'bahrom'
 
+expression = "((1-2+(2+5))+(3-(2+1)))-((2-1)-(3-1))"
+
 
 def get_inner_most_group(expression, open_char, close_char):
     pass
