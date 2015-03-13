@@ -23,10 +23,16 @@ class ParserUnitTest(unittest.TestCase):
             self.expression.find(char), first_char_index
         )
 
-    def test_get_inner_rightmost_group(self):
+    def test_get_innermost_rightmost_group(self):
         self.assertEquals(
-            '3-1',
+            '3-1*2-3/-4',
             parser.get_innermost_rightmost_group(self.expression, '(', ')'),
+        )
+
+    def test_split_into_numbers_and_operations(self):
+        self.assertEquals(
+            ['3', '-', '11', '*-', '2', '-', '3', '/-', '44', '*', '5', '+', '11'],
+            parser.split_into_numbers_and_operations('3-11*-2-3/-44*5+11')
         )
 
 

@@ -1,8 +1,6 @@
 __author__ = 'bahrom'
 
-from string import digits
-
-EXPRESSION = '((1-2+(2+5))+(3-(2+1)))-((2-1)-(3-1))'
+EXPRESSION = '((1-2+(2+5))+(3-(2+1)))-((2-1)-(3-1*2-3/-4))'
 
 
 def get_last_given_char_index(expression, char):
@@ -39,20 +37,22 @@ def get_innermost_rightmost_group(expression, open_char, close_char):
 def split_into_numbers_and_operations(expression):
     """
     :param expression: an expression string without parens
-    :return fields: a list of items where each item is either a number or an operation
+    :return fields: a list of strings where each string is either a number, an operation,
+                    or a set of operations (in the case of a*-b or a**b)
     """
     fields = []
     field = []
-    previous_is_digit = expression[0] in digits     # Check what the starting data type is
+    previous_is_digit = expression[0].isdigit()     # Check what the starting data type is
     i = 0                                           # Used to see if have reached the end yet
     for char in expression:
-        next_is_digit = char in digits              # Check the next data type
+        next_is_digit = char.isdigit()              # Check the next data type
         if previous_is_digit == next_is_digit:      # If it's the same as the previous one
             field.append(char)                      # we're still going through the same field.
-        else:                                       # Otherwise we're done, add to the rest and continue.
-            fields.append(''.join(field))
+        else:                                       # Otherwise we're done,
+            fields.append(''.join(field))           # add the field to fields, and
+            field = [char]                          # reset the field to only contain the current char
+        previous_is_digit = next_is_digit
         i += 1
-    if i == len(expression):                        #
+    if i == len(expression):
         fields.append(''.join(field))
     return fields
-
