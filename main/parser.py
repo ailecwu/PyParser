@@ -1,5 +1,7 @@
 __author__ = 'bahrom'
 
+from string import digits
+
 EXPRESSION = '((1-2+(2+5))+(3-(2+1)))-((2-1)-(3-1))'
 
 
@@ -32,3 +34,25 @@ def get_innermost_rightmost_group(expression, open_char, close_char):
     # Find first closing paren index after that opening paren
     end = get_first_given_char_index(expression, close_char, start)
     return expression[start+1:end]
+
+
+def split_into_numbers_and_operations(expression):
+    """
+    :param expression: an expression string without parens
+    :return fields: a list of items where each item is either a number or an operation
+    """
+    fields = []
+    field = []
+    previous_is_digit = expression[0] in digits     # Check what the starting data type is
+    i = 0                                           # Used to see if have reached the end yet
+    for char in expression:
+        next_is_digit = char in digits              # Check the next data type
+        if previous_is_digit == next_is_digit:      # If it's the same as the previous one
+            field.append(char)                      # we're still going through the same field.
+        else:                                       # Otherwise we're done, add to the rest and continue.
+            fields.append(''.join(field))
+        i += 1
+    if i == len(expression):                        #
+        fields.append(''.join(field))
+    return fields
+
