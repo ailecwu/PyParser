@@ -1,6 +1,6 @@
 __author__ = 'bahrom'
 
-EXPRESSION = '((1-2+(2+5))+(3-(2+1)))-((2-1)-(3-1*2-3/-4))'
+EXPRESSION = '((1-2+(2+5))+(3-(2+1)))-((2-1)-(3-1*2-3/-4-2**3))'
 
 
 def get_last_given_char_index(expression, char):
@@ -55,3 +55,30 @@ def split_into_numbers_and_operations(expression):
         i += 1
     fields.append(''.join(field))                   # add the final remaining field
     return fields
+
+
+def format_fields(fields):
+    """
+    :param fields: list of numbers and operations as strings
+    :return a list of formatted fields, with numbers cast into integers
+    """
+    leading_sign = ''
+    formatted_fields = []
+    for field in fields:
+        try:
+            result = int(leading_sign+field)
+        except ValueError:
+            leading_sign = ''                               # Reset the sign
+            if len(field) == 1:
+                result = field
+            elif len(field) == 2:                           # This should happen in the case of *+/*- or **.
+                if field == '**':                           # Just raising to a power.
+                    result = field
+                elif field[1] in '+-':                      # Second value would be a sign in case of *+/*-, so
+                    result, leading_sign = field            # field is split into an operation and the sign.
+                else:
+                    raise Exception('Invalid operation')    # Operation is invalid, ie +/, */, +* etc
+            else:
+                raise Exception('Unsupported operation')    # Operation is longer than 2 chars (2**-1 not supported yet)
+        formatted_fields.append(result)
+    return formatted_fields
