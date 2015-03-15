@@ -1,8 +1,5 @@
 __author__ = 'bahrom'
 
-PLUS_OP = '+'
-MINUS_OP = '-'
-
 EXPRESSION = '((1-2+(2+5))+(3-(2+1)))-((2-1)-(3-1*2-3/-4-2**3))'
 
 
@@ -77,13 +74,13 @@ def format_fields(fields):
             elif len(field) == 2:                           # This should happen in the case of *+/*- or **.
                 if field == '**':                           # Just raising to a power.
                     result = field
-                elif field[1] in (PLUS_OP, MINUS_OP):   # Second value would be a sign in case of *+/*-, so
+                elif field[1] in '+-':                      # Second value would be a sign in case of *+/*-, so
                     result, leading_sign = field            # field is split into an operation and the sign.
                 else:
                     raise Exception('Invalid operation')    # Operation is invalid, ie +/, */, +* etc
             elif len(field) == 3:
                 if field[:2] == '**':
-                    if field[2] in (PLUS_OP, MINUS_OP):
+                    if field[2] in '+-':
                         result, leading_sign = field[:2], field[2]
             else:
                 raise Exception('Unsupported operation')    # Operation is longer than 3 chars
