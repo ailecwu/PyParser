@@ -45,12 +45,19 @@ class ParserUnitTest(unittest.TestCase):
             parser.format_fields(fields)
         )
 
+    def test_format_fields_parses_powers_correctly(self):
+        expression = '3**+2+3**-2'
+        fields = parser.split_into_numbers_and_operations(expression)
+        self.assertEquals(
+            [3, '**', 2, '+', 3, '**', -2], parser.format_fields(fields)
+        )
+
     def test_format_fields_raises_exception_for_invalid_format(self):
         fields = ['1', '*+', '2', '/*', '3']
         self.assertRaises(Exception, parser.format_fields, fields)
 
     def test_format_fields_raises_exception_for_unsupported_ops(self):
-        field = choice(['+--', '***', '**-', '++++'])
+        field = choice(['+--', '***', '++++'])
         self.assertRaises(Exception, parser.format_fields, [field])
 
 def main():
