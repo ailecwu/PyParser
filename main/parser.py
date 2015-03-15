@@ -78,7 +78,11 @@ def format_fields(fields):
                     result, leading_sign = field            # field is split into an operation and the sign.
                 else:
                     raise Exception('Invalid operation')    # Operation is invalid, ie +/, */, +* etc
+            elif len(field) == 3:
+                if field[:2] == '**':
+                    if field[2] in '+-':
+                        result, leading_sign = field[:2], field[2]
             else:
-                raise Exception('Unsupported operation')    # Operation is longer than 2 chars (2**-1 not supported yet)
+                raise Exception('Unsupported operation')    # Operation is longer than 3 chars
         formatted_fields.append(result)
     return formatted_fields
