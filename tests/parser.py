@@ -18,6 +18,13 @@ class ParserUnitTest(unittest.TestCase):
             self.expression.rfind(char), last_char_index
         )
 
+    def test_get_last_given_char_index_when_char_not_found(self):
+        char = choice("!.,;^%abcetc")
+        last_char_index = parser.get_last_given_char_index(self.expression, char)
+        self.assertEquals(
+            self.expression.rfind(char), last_char_index
+        )
+
     def test_get_first_given_char_index(self):
         char = ')'
         first_char_index = parser.get_first_given_char_index(self.expression, char)
@@ -59,6 +66,7 @@ class ParserUnitTest(unittest.TestCase):
     def test_format_fields_raises_exception_for_unsupported_ops(self):
         field = choice(['+--', '***', '++++'])
         self.assertRaises(Exception, parser.format_fields, [field])
+
 
 def main():
     unittest.main()

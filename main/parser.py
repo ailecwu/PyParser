@@ -4,12 +4,12 @@ EXPRESSION = '((1-2+(2+5))+(3-(2+1)))-((2-1)-(3-1*2-3/-4-2**3))'
 
 
 def get_last_given_char_index(expression, char):
-    index, location = 0, 0
+    index, location = 0, None
     for c in expression:
         if c == char:
             location = index
         index += 1
-    return location
+    return location if location is not None else -1
 
 
 def get_first_given_char_index(expression, char, start=0):
